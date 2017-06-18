@@ -1,0 +1,54 @@
+---
+title: "Computation of Infant Mortality rate from swiss data"
+author: "V"
+date: "6/18/2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Intro and Motivation
+
+Following is an assignment submission for coursework "Shiny Application and Reproducible Pitch". The idea behind this assignment is to do some computations on "Swiss Fertility and Socioeconomic Indicators (1888) Data" dataset aka 'swiss' dataset in R, and predict Infant Mortality Rate, based on user inputs.
+
+
+
+## Slide with R dataset
+
+```{r dataset_1, echo = TRUE}
+head(swiss)
+summary(swiss)
+```
+
+## Slide with R dataset
+
+```{r dataset_2, echo = TRUE}
+summary(swiss)
+```
+
+## Shiny App and Features
+
+The shiny app can be found at https://neoeahit.shinyapps.io/myApp/.
+The user naeed to use the slider to select values and click on GO, upon which the predictive model will generate a predicted value for Infant Mortality rate. 
+
+## Code
+
+model <- lm(Infant.Mortality~ Fertility+Agriculture+Examination+Education+Catholic, data=swiss)
+
+    modelpred <- reactive({
+      FertilityInput <- input$Fertility
+      AgricultureInput <- input$Agriculture
+      ExaminationInput <- input$Examination
+      CatholicInput <- input$Catholic
+      EducationInput <- input$Education
+      
+      predict(model, newdata = data.frame(Fertility = FertilityInput,
+                                           Agriculture = AgricultureInput,
+                                           Examination = ExaminationInput,
+                                           Education = EducationInput,
+                                           Catholic = CatholicInput
+                                           ))
+    })
+
